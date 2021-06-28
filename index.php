@@ -12,24 +12,36 @@
   require $document_root.'/partials/SiteNav.php';
   // Require in the Footer for the page. 
   require $document_root.'/partials/Footer.php'; 
-  
-  
-  // Instantiate a EventTable class so I can retrieve data from the database (flat file).
-  $events_db = new EventTable("$document_root/flat_db/events.txt", "rb");
-  
-  // Retrieve 3 events from the database (flat file).
-  $events = $events_db->get_events(3);
+    
+  try{  
+    // $db = new mysqli('localhost', 'user_name', 'password', 'database');
+    // $db = new mysqli('localhost', 'student093', 'SEMINOLE_STATE_PASSWORD', 'student093'); //In production
+    @$db = new mysqli('localhost', 'bradley', 'PERSONAL_PASSWORD', 'student093'); //In development. 
+    if(mysqli_connect_errno()){
+      throw new Error("There was an error connecting to the DB.");
+    }
+  }catch(Error $e){
+    echo $e->getMessage()."<br/>";
+    exit();
+  }
 
-  // Instantiate a UserTable class so I can retrieve data from the database (flat file).
-  $users_db = new UserTable("$document_root/flat_db/users.txt", "rb");
-  
-  // get the user that is currently logged in. 
-  // Right now there is no way to log in or out. I will implement this when 
-  // I start using MySQL. 
-  $user_name = $users_db->get_current_user();
-  
-  // Close the connection to the database. 
-  $users_db->close_file();
+  // get the current user
+  $query = "SELECT first, last FROM users LIMIT 1";
+  $stmt = $db->prepare($query);
+  $stmt->execute();
+  $stmt->store_result();
+  $stmt->bind_result($first, $last);
+  $stmt->fetch();
+  $stmt = null;
+  $user_name = $first." ".$last;
+
+  // Retrieve 3 events from the database (flat file).
+  // $events = $events_db->get_events(3);
+  $query = "SELECT title, event_date, description FROM events LIMIT 3";
+  $stmt = $db->prepare($query);
+  $stmt->execute();
+  $stmt->store_result();
+  $stmt->bind_result($event_title, $event_date, $event_description);
 
   // Instantiate a navigation component. 
   $nav = new SiteNav("dashboard");
@@ -106,26 +118,43 @@
         <div class="card-body">
 
           <?php
+          if($stmt->num_rows > 0){
+            while($stmt->fetch()){
+            // Render the content in the DOM. 
+            echo "<div class='card mt-3'>
+              <div class='card-header'>
+                <h3 class='card-title'> $event_title </h3>
+                <h5 class='card-subtitle'> $event_date </h5>
+              </div>
+              <div class='card-body'>  
+                <p class='card-text'> $event_description </p>
+                <button type='button' class='btn btn-primary'>More Details</button>
+              </div>
+            </div>";
+            }
+          }else{
+            echo "No events";
+          }
             /* The $events array holds a key/value array. I iterate through it
             and extract the keys and values out to variables by using extract(). 
             Each iteration does this and replaces the old contents of the variables 
             that were extracted by extract(). 
             */
-            for($i = 0; $i < count($events); $i++){
-              // Extract the keys out. Replace any name collisions. 
-              extract($events[$i]);
-              // Render the content in the DOM. 
-              echo "<div class='card mt-3'>
-                <div class='card-header'>
-                  <h3 class='card-title'> $event_title </h3>
-                  <h5 class='card-subtitle'> $event_date </h5>
-                </div>
-                <div class='card-body'>  
-                  <p class='card-text'> $event_description </p>
-                  <button type='button' class='btn btn-primary'>More Details</button>
-                </div>
-              </div>";
-            }
+            // for($i = 0; $i < count($events); $i++){
+            //   // Extract the keys out. Replace any name collisions. 
+            //   extract($events[$i]);
+            //   // Render the content in the DOM. 
+            //   echo "<div class='card mt-3'>
+            //     <div class='card-header'>
+            //       <h3 class='card-title'> $event_title </h3>
+            //       <h5 class='card-subtitle'> $event_date </h5>
+            //     </div>
+            //     <div class='card-body'>  
+            //       <p class='card-text'> $event_description </p>
+            //       <button type='button' class='btn btn-primary'>More Details</button>
+            //     </div>
+            //   </div>";
+            // }
           ?>
         </div>
       </div>
