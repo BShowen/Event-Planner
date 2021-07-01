@@ -4,6 +4,7 @@ class SiteNav{
   private $events = "";
   private $profile = "";
   private $friends = "";
+  private $confirmation = "";
 
   function __construct(string $active){
     switch($active) {
@@ -18,6 +19,9 @@ class SiteNav{
         break;
       case "friends":
         $this->friends = "active";
+        break;
+      case "confirmation":
+        $this->confirmation = "active";
         break;
       default:
         $this->dashboard = "active";

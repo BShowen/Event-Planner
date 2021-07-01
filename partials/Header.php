@@ -1,6 +1,7 @@
 <?php
   class Header {
-    public static function render(){
+    public static function render($title){
+      $title = ucwords($title);
       echo "<!DOCTYPE html>
       <html lang='en'>
         <head>
@@ -13,7 +14,7 @@
             rel='stylesheet' integrity='sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x' 
             crossorigin='anonymous'
           >
-          <title>Event Manager | Dashboard</title>
+          <title>$title</title>
         </head>
         <body>";
     }

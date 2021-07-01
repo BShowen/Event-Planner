@@ -12,7 +12,7 @@ class ConfirmationCard{
   }
 
   public function render(){
-    echo "<div class='card'>
+    return "<div class='card'>
         <div class='card-header'>
           <h3 class='card-title'>Your event has been saved!</h3>
           <h5 class='card-subtitle'>Here are your event details.</h5>

@@ -12,7 +12,6 @@ $home_page->render();
 Its as simple as that! I now have one class that controls every single page of my application. 
 */
 
-
 // Get the base file path. 
 $document_root = $_SERVER['DOCUMENT_ROOT'];
 // Require in the sites' navigation. 
@@ -23,7 +22,8 @@ require $document_root.'/partials/Header.php';
 require $document_root.'/partials/Footer.php'; 
 
 class Page {
-  private $title = "Event Planner | ";
+  private const DEFAULT_TITLE = "Event Planner | ";
+  private $title;
   private $content;
 
   function __construct($title){
@@ -31,9 +31,12 @@ class Page {
   }
 
   public function render(){
-    Header::render($this->title);
+    Header::render(self::DEFAULT_TITLE.$this->title);
+    echo "<div class='container-fluid'>";
     $this->display_nav();
-    $this->display_content();
+    // $this->display_content();
+    echo $this->content;
+    echo "</div>";
     Footer::render();
   }
 
@@ -42,11 +45,11 @@ class Page {
   }
 
   private function display_content(){
-    echo "<div class='container-fluid'>$this->content</div>";
+    // echo "<div class='container-fluid'>".$this->content."</div>";
   }
 
   private function set_title($page_title){
-    $this->title .= $page_title;
+    $this->title = $page_title;
   }
 
   private function display_nav(){

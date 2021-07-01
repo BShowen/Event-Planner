@@ -28,10 +28,12 @@ class Event {
     return count($this->errors) == 0;
   }
 
-  function display_errors(){  
+  function get_errors(){  
+    $string_of_errors = '';
     for($i = 0; $i < count($this->errors); $i++){
-      echo $this->errors[$i]."<br/>";
+      $string_of_errors .= $this->errors[$i];
     }
+    return $string_of_errors;
   }
 
   private function set_title($new_title){
