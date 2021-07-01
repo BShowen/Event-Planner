@@ -1,4 +1,7 @@
 <?php
+// Used for debugging. 
+// print_r($_SERVER);
+// exit;
 /*
 This is my template for my entire site. You import this class and then instantiate 
 it with a title for the browser page title. There are only two public functions called
@@ -20,6 +23,7 @@ require $document_root.'/partials/SiteNav.php';
 require $document_root.'/partials/Header.php';
 // Require in the Footer for the page. 
 require $document_root.'/partials/Footer.php'; 
+require $document_root.'/login_form.php';
 
 class Page {
   private const DEFAULT_TITLE = "Event Planner | ";
@@ -28,13 +32,26 @@ class Page {
 
   function __construct($title){
     $this->set_title($title);
+    // If there is no cookie then the user is not logged in. 
+    // Display the default template with the login form 
+    // and terminate the program.
+    if(!isset($_COOKIE['auth'])){
+      Header::render(self::DEFAULT_TITLE.$this->title);
+      echo "<div class='container-fluid'>";
+      $this->display_nav();
+      // I figured out how to method chain in PHP. You wrap the 
+      // object in () and then proceed to call the next method. 
+      (new LoginForm())->render();
+      echo "</div>";
+      Footer::render();
+      exit;
+    }
   }
 
   public function render(){
     Header::render(self::DEFAULT_TITLE.$this->title);
     echo "<div class='container-fluid'>";
     $this->display_nav();
-    // $this->display_content();
     echo $this->content;
     echo "</div>";
     Footer::render();
@@ -44,17 +61,12 @@ class Page {
     $this->content = $page_content;
   }
 
-  private function display_content(){
-    // echo "<div class='container-fluid'>".$this->content."</div>";
-  }
-
   private function set_title($page_title){
     $this->title = $page_title;
   }
 
   private function display_nav(){
-    $nav = new SiteNav($this->title);
-    $nav->render();
+    (new SiteNav($this->title))->render();
   }
 
 }

@@ -10,8 +10,7 @@
   // Require in the database object then
   // get a handle on the database.
   require $document_root.'/Database.php';
-  $db = new Database();
-  $db = &$db->get_handle();
+  $db = (new Database())->get_handle();
 
   
   // Retrieve all the events from the database. 

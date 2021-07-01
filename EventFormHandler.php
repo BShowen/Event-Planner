@@ -14,8 +14,7 @@
   // Require in the database object then
   // get a handle on the database.
   require $document_root.'/Database.php';
-  $db = new Database();
-  $db = &$db->get_handle();
+  $db = (new Database())->get_handle();
   
   // Retrieve the form data and store it in variables to be used later.
   $event_title = trim($_POST['event_title']);

@@ -4,8 +4,7 @@ $document_root = $_SERVER['DOCUMENT_ROOT'];
 
 // Get the database file. 
 require $document_root.'/Database.php';
-$db = new Database();
-$db = $db->get_handle();
+$db = (new Database())->get_handle();
 
 // get the email and password provided by the user. 
 $email_address = $_POST['email_address'];
@@ -23,10 +22,10 @@ $stmt->fetch();
 // Determine if we have found a user in the database. 
 if($stmt->num_rows > 0 && $user_id && $password_digest){
   if(password_verify($password, $password_digest)){
-    // Set a cookie in the user;s browser and redirect to the index page.
+    // Set a cookie in the users browser and redirect to the index page.
     setcookie("auth", strval($user_id), 0, "/");
     // Redirect to the home page. 
-    header("Location: http://localhost:8080/index.php");
+    header("Location: http://".$_SERVER['HTTP_HOST']."/index.php");
   }else{
     echo "Incorrect password.";
   }

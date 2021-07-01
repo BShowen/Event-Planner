@@ -5,27 +5,21 @@
   // Require in the Database file. 
   require $document_root.'/Database.php';
 
-  if(isset($_COOKIE['auth'])){
-    // Require in the User file for user validation.
-    require $document_root.'/models/User.php';
-    // Get the value of the cookie. 
-    $user_id = intval($_COOKIE['auth']);
-    $current_user = new User($user_id);
-  }else{
-    // Redirect the user to the login page if no cookie is set. 
-    header("Location: http://localhost:8080/login.php");
-  }
-  
-  
-  
   // Require in the template for the website
   // and instantiate a page object. 
   require $document_root.'/Page.php';
   $page = new Page($title = "dashboard");
+
+
+  // Require in the User file for user validation.
+  require $document_root.'/models/User.php';
+  // Get the value of the cookie. 
+  $user_id = intval($_COOKIE['auth']);
+  $current_user = new User($user_id);
   
   // get a handle on the database.
-  $db = new Database();
-  $db = &$db->get_handle();
+  $db = (new Database())->get_handle();
+  
   // Retrieve 3 events from the database.
   $query = 'SELECT title, event_date, description FROM events LIMIT 3';
   $stmt = $db->prepare($query);
@@ -116,40 +110,7 @@
     </div>
   </div>";
 
-  $login = "
-  <div class='row mt-3 justify-content-center'>
-    <!-- Left page column. -->
-    <div class='col-sm-12 col-lg-7 d-flex justify-content-center'> 
-      <div class='col-sm-12 col-md-7 col-lg-8 justify-content-center'>
-        <div class='card bg-light border-0'>
-          <div class='card-header bg-dark text-light'>
-            <h3 class='card-title text-center'>Login to Event Planner</h3>
-          </div>
-          <div class='card-body'>
-            <form action='./LoginHandler.php' method='POST'>
-              <div class='row justify-content-center'>
-                <div class='col-sm-8'>
-                  <label for='emailAddress' class='form-label mt-2'>Email address</label>
-                  <input type='text' class='form-control' name='email_address' id='emailAddress'>
-                  
-                  <label for='password' class='form-label mt-2'>Password</label>
-                  <input type='password' class='form-control' name='password' id='password'>
-
-                  <input class='btn btn-primary mt-2' type='submit' value='Submit'>
-                </div>
-              </div>
-            </form>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>";
-
   $db->close();
-  if($current_user->valid){
-    $page->set_content($content);
-  }else{
-    $page->set_content($login);
-  }
+  $page->set_content($content);
   $page->render();
 ?>
