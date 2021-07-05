@@ -26,7 +26,7 @@ require $document_root.'/partials/Footer.php';
 require $document_root.'/login_form.php';
 
 class Page {
-  private const DEFAULT_TITLE = "Event Planner | ";
+  const DEFAULT_TITLE = "Event Planner | ";
   private $title;
   private $content;
 

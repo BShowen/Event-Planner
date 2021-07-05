@@ -15,6 +15,19 @@
             crossorigin='anonymous'
           >
           <title>$title</title>
+          <style>
+            html, body{
+              height: 100%;
+            }
+            body>.container-fluid {
+              min-height: 100%;
+              padding-bottom: 150px;
+            } 
+            footer {
+              height: 100px;
+              margin-top: -100px; 
+            }
+          </style>
         </head>
         <body>";
     }
