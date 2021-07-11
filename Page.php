@@ -24,24 +24,35 @@ require $document_root.'/partials/Header.php';
 // Require in the Footer for the page. 
 require $document_root.'/partials/Footer.php'; 
 require $document_root.'/login_form.php';
+require $document_root.'/signup_form.php';
 
 class Page {
   const DEFAULT_TITLE = "Event Planner | ";
   private $title;
   private $content;
 
-  function __construct($title){
+  function __construct($title, $form_type = 'login'){
     $this->set_title($title);
     // If there is no cookie then the user is not logged in. 
     // Display the default template with the login form 
     // and terminate the program.
-    if(!isset($_COOKIE['auth'])){
+    if(!isset($_COOKIE['auth']) && $form_type == 'login'){
       Header::render(self::DEFAULT_TITLE.$this->title);
       echo "<div class='container-fluid'>";
       $this->display_nav();
       // I figured out how to method chain in PHP. You wrap the 
       // object in () and then proceed to call the next method. 
       (new LoginForm())->render();
+      echo "</div>";
+      Footer::render();
+      exit;
+    }elseif($form_type == 'sign up'){
+      Header::render(self::DEFAULT_TITLE.$this->title);
+      echo "<div class='container-fluid'>";
+      $this->display_nav();
+      // I figured out how to method chain in PHP. You wrap the 
+      // object in () and then proceed to call the next method. 
+      (new SignupForm())->render();
       echo "</div>";
       Footer::render();
       exit;

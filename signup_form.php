@@ -1,5 +1,5 @@
 <?php
-class LoginForm{
+class SignupForm{
   private $content = 
   "<div class='row mt-3 justify-content-center'>
     <!-- Left page column. -->
@@ -10,9 +10,15 @@ class LoginForm{
             <h3 class='card-title text-center'>Login to Event Planner</h3>
           </div>
           <div class='card-body'>
-            <form action='./LoginHandler.php' method='POST'>
+            <form action='./SignupHandler.php' method='POST'>
               <div class='row justify-content-center'>
                 <div class='col-sm-8'>
+                  <label for='firstName' class='form-label mt-2'>First name</label>
+                  <input type='text' class='form-control' name='first_name' id='firstName'>
+                  
+                  <label for='lastName' class='form-label mt-2'>Last name</label>
+                  <input type='text' class='form-control' name='last_name' id='lastName'>
+                  
                   <label for='emailAddress' class='form-label mt-2'>Email address</label>
                   <input type='text' class='form-control' name='email_address' id='emailAddress'>
                   
@@ -20,7 +26,7 @@ class LoginForm{
                   <input type='password' class='form-control' name='password' id='password'>
                   
                   <input class='btn btn-primary mt-2' type='submit' value='Submit'>
-                  <p class='mt-1'>Not member? <a href='./sign_up.php'>Sign up now!</a></p>
+                  <p class='mt-1'>Already a member? <a href='./index.php'>Login</a></p>
                 </div>
               </div>
             </form>

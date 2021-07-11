@@ -25,13 +25,19 @@
   // and instantiate a page object. 
   require $document_root.'/Page.php';
   $page = new Page($title = "confirmation"); 
+
+  // Require in the User file for user validation.
+  require $document_root.'/models/User.php';
+  // Get the value of the cookie. 
+  $user_id = intval($_COOKIE['auth']);
+  $current_user = new User($user_id);
   
   // Create a new Event object which holds the data for a particular event. 
   $new_event = new Event($event_title, $event_date, $event_description);
   if($new_event->valid()){
     $query = "INSERT INTO events (userid, title, description, event_date) VALUES(?,?,?,?)";
     $stmt = $db->prepare($query);
-    $user_id= 1;
+    $user_id= $current_user->user_id;
     $stmt->bind_param('isss', $user_id, $event_title, $event_description, $event_date);
     $stmt->execute();
 

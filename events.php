@@ -12,29 +12,52 @@
   require $document_root.'/Database.php';
   $db = (new Database())->get_handle();
 
+  // Require in the User and Event objects. 
+  require $document_root.'/models/User.php';
+  require $document_root.'/models/Event.php';
   
-  // Retrieve all the events from the database. 
-  // $events = $events_db->get_events();
-  $query = 'SELECT title, event_date, description FROM events';
-  $stmt = $db->prepare($query);
-  $stmt->execute();
-  $stmt->store_result();
-  $stmt->bind_result($event_title, $event_date, $event_description);
+  // Retrieve the cookie from the users browser and set the current user 
+  // to this user. If the user doesn't have a cookie in the browser then 
+  // ./Page.php will on line 8 will have caught this and the user will be 
+  // required to log in. 
+  $current_user = new User(intval($_COOKIE['auth']));
 
+  // Retrieve the events that are associated with the current user. 
+  // This method returns an array of arrays. Each sub array correlates to 
+  // an Event row from the event database. Each sub array has this structure
+  // [
+  //   [title, date, description],
+  //   [title, date, description],
+  //   ...etc,
+  //   [title, date, description],
+  // ]
+  $events = $current_user->events();
 
-  // create a long string which holds all of the rows for the table. 
+  // Create a blank string. I append characters to this string which makeup the 
+  // HTML content which will be rendered. 
   $table_rows = '';
-  if($stmt->num_rows > 0){
-    while($stmt->fetch()){
-      $table_rows.="<tr>
-      <td> Bradley Showen </td>
-      <td> $event_title </td>
-      <td> $event_date </td>
-      <td> $event_description </td>
+
+  // Iterate through each of the events that were returned by lin 34. 
+  foreach($events as $event){
+    // 
+    list($title, $date, $description) = $event;
+    $table_rows.="<tr>
+      <td> $current_user->first_name $current_user->last_name </td>
+      <td> $title </td>
+      <td> $date </td>
+      <td> $description </td>
       <td> 0 </td>
     </tr>";
-    }
   }
+
+  // Retrieve all the events from the database. 
+  // $events = $events_db->get_events();
+  // $query = 'SELECT title, event_date, description FROM events';
+  // $query = 'SELECT u.first, u.last, e.title, e.event_date, e.description FROM users AS u JOIN events as e USING(userid)';
+  // $stmt = $db->prepare($query);
+  // $stmt->execute();
+  // $stmt->store_result();
+  // $stmt->bind_result($first, $last, $title, $event_date, $description);
 
   $content = "<div class='row mt-3 justify-content-center'>
     <!-- Left page column. -->
