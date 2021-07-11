@@ -6,8 +6,10 @@ class SiteNav{
   private $friends = "";
   private $confirmation = "";
   private $logout_button;
+  private $logged_in;
 
   function __construct(string $active){
+    $this->logged_in = isset($_COOKIE['auth']);
     $this->logout_button = isset($_COOKIE['auth']) ? '' : 'none';
     switch($active) {
       case "dashboard":
@@ -31,8 +33,10 @@ class SiteNav{
     }
   }
 
+
   function render(){
-    $content = "<div class='row'>
+    if($this->logged_in){
+      echo "<div class='row'>
       <nav class='navbar navbar-expand-sm navbar-dark bg-dark pt-3 pb-3'>
         <div class='container-fluid p-0'>
           <a class='navbar-brand fs-4' href='./index.php' >Event Manager</a>
@@ -70,8 +74,16 @@ class SiteNav{
         </div>
       </nav> 
     </div>";
+    }else{
+      echo "<div class='row'>
+      <nav class='navbar navbar-expand-sm navbar-dark bg-dark pt-3 pb-3'>
+        <div class='container-fluid p-0'>
+          <a class='navbar-brand fs-4' >Event Manager</a>
+        </div>
+      </nav> 
+    </div>";
+    }
 
-    echo $content;
   }
 }
 ?>
