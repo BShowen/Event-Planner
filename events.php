@@ -17,52 +17,100 @@
   // required to log in. 
   $current_user = new User(intval($_COOKIE['auth']));
 
-  // Retrieve the events that are associated with the current user. 
-  // This method returns an array of arrays. Each sub array correlates to 
-  // an Event row from the event database. Each sub array has this structure
-  // [
-  //   [title, date, description],
-  //   [title, date, description],
-  //   ...etc,
-  //   [title, date, description],
-  // ]
-  $events = $current_user->events();
+  $selection = isset($_POST['selection']) ? intval($_POST['selection']) : intval($current_user->user_id);
+  $db = (new Database())->get_handle();
+  if($selection == -1){
+    // Retrieve all the events from the database. 
+    $query = 'SELECT title, event_date, description FROM events';
+    $query = 'SELECT u.first, u.last, e.title, e.event_date, e.description FROM users AS u JOIN events as e USING(userid)';
+    $stmt = $db->prepare($query);
+    $stmt->execute();
+    $stmt->store_result();
+    $stmt->bind_result($first, $last, $title, $event_date, $description);
+    $events = [];
+    while($stmt->fetch()){
+      array_push($events, [$first, $last, $title, $event_date, $description]);
+    }
+  }else{
+    // Find events for a particular user
+    $query = 'SELECT title, event_date, description FROM events';
+    $query = (
+      'SELECT u.first, u.last, e.title, e.event_date, e.description 
+      FROM users AS u JOIN events AS e 
+      USING(userid) 
+      WHERE userid = ?'
+    );
+    $stmt = $db->prepare($query);
+    $stmt->bind_param('i', $selection);
+    $stmt->execute();
+    $stmt->store_result();
+    $stmt->bind_result($first, $last, $title, $event_date, $description);
+    $events = [];
+    while($stmt->fetch()){
+      array_push($events, [$first, $last, $title, $event_date, $description]);
+    }
+  }
 
   // Create a blank string. I append characters to this string which makeup the 
   // HTML content which will be rendered. 
   $table_rows = '';
 
-  // Iterate through each of the events that were returned by lin 34. 
+  // Iterate through each of the events
   foreach($events as $event){
     // 
-    list($title, $date, $description) = $event;
+    list($first, $last, $title, $event_date, $description) = $event;
     $table_rows.="<tr>
-      <td> $current_user->first_name $current_user->last_name </td>
+      <td> $first $last </td>
       <td> $title </td>
-      <td> $date </td>
+      <td> $event_date </td>
       <td> $description </td>
       <td> 0 </td>
     </tr>";
   }
 
-  // Retrieve all the events from the database. 
-  // $events = $events_db->get_events();
-  // $query = 'SELECT title, event_date, description FROM events';
-  // $query = 'SELECT u.first, u.last, e.title, e.event_date, e.description FROM users AS u JOIN events as e USING(userid)';
-  // $stmt = $db->prepare($query);
-  // $stmt->execute();
-  // $stmt->store_result();
-  // $stmt->bind_result($first, $last, $title, $event_date, $description);
+  $options = "<option value='-1'>All</option>";
+  $query = 'SELECT userid, first, last FROM users';
+  $stmt = $db->prepare($query);
+  $stmt->execute();
+  $stmt->store_result();
+  $stmt->bind_result($userid, $first, $last);
+  while($stmt->fetch()){
+    $first = ucfirst($first);
+    $last = ucfirst($last);
+    if($userid == $selection){
+      $options.="<option selected value='$userid'>$first $last[0]</option>";
+    }else{
+      $options.="<option value='$userid'>$first $last[0]</option>";
+    }
+  }
+
 
   $content = "<div class='row mt-3 justify-content-center'>
     <!-- Left page column. -->
     <div class='col-sm-9'>
       <div class='card'>
       <div class='card-header bg-dark text-light'>
-          <h3 class='card-title text-center pt-2'>All Events</h3>
-        </div>
+        <h3 class='card-title text-center pt-2'>Events</h3>
+      </div>
         <div class='card-body'>
-          <table class=' table table-striped table-hover border-start border-end border-top'>
+        <div class='card'>
+          <div class='card-body'>
+            <form action='./events.php' method='POST'>
+              <div class='row'>
+                <label class='col-sm-2 col-lg-2 text-end'>See all events from:</label>
+                <div class='col-sm-9 col-lg-3'>
+                  <select name='selection' class='form-select form-select-sm' aria-label='.form-select-sm example'>".
+                    $options
+                  ."</select>
+                </div>
+                <div class='col-sm-1'>
+                  <input class='btn btn-primary btn-sm' type='submit' value='Search'>
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+          <table class='table table-striped table-hover border-start border-end border-top mt-3'>
             <thead>
               <th scope='col'>Host</th>
               <th scope='col'>Event Title</th>
