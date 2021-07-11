@@ -7,11 +7,6 @@
   require $document_root.'/Page.php';
   $page = new Page($title = "events");
 
-  // Require in the database object then
-  // get a handle on the database.
-  require $document_root.'/Database.php';
-  $db = (new Database())->get_handle();
-
   // Require in the User and Event objects. 
   require $document_root.'/models/User.php';
   require $document_root.'/models/Event.php';
@@ -83,8 +78,7 @@
       </div>  
     </div>
   </div>";
-
-  $db->close();
+  
   $page->set_content($content);
   $page->render();
 

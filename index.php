@@ -1,9 +1,6 @@
 <?php
   // Get the base file path. 
   $document_root = $_SERVER['DOCUMENT_ROOT'];
-  
-  // Require in the Database file. 
-  require $document_root.'/Database.php';
 
   // Require in the template for the website
   // and instantiate a page object. 
@@ -15,22 +12,15 @@
   require $document_root.'/models/User.php';
   // Get the value of the cookie. 
   $user_id = intval($_COOKIE['auth']);
-  $current_user = new User($user_id);
-  
-  // get a handle on the database.
-  $db = (new Database())->get_handle();
-  
+  $current_user = new User($user_id);  
   // Retrieve 3 events from the database.
-  $query = 'SELECT title, event_date, description FROM events LIMIT 3';
-  $stmt = $db->prepare($query);
-  $stmt->execute();
-  $stmt->store_result();
-  $stmt->bind_result($event_title, $event_date, $event_description);
+  $events = $current_user->events(3);
 
   // Create a long string that holds the page content for the page. 
   $event_elements = '';
-  if($stmt->num_rows > 0){
-    while($stmt->fetch()){
+  if(!empty($events)){
+    for($i = 0; $i < count($events); $i++){
+      list($event_title, $event_date, $event_description) = $events[$i];
       $event_elements.="<div class='card mt-3'>
         <div class='card-header'>
           <h3 class='card-title'> $event_title </h3>
@@ -43,7 +33,7 @@
       </div>";
     }
   }else{
-    $event_elements.'No events';
+    $event_elements.="<h3 class='card-title text-center pt-2'>You don't have any events</h3>";
   }
 
   $content = "
@@ -103,14 +93,13 @@
     <div class='col mt-3 justify-content-center col-lg-6'>
       <div class='card bg-light border-0'>
         <div class='card-header bg-dark text-light'>
-          <h3 class='card-title text-center pt-2'>Upcoming events</h3>
+          <h3 class='card-title text-center pt-2'>My Upcoming events</h3>
         </div>
         <div class='card-body'>".$event_elements."</div>
       </div>
     </div>
   </div>";
 
-  $db->close();
   $page->set_content($content);
   $page->render();
 ?>

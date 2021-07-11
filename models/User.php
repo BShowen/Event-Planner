@@ -1,8 +1,4 @@
 <?php
-
-// Get the document root.
-$document_root = $_SERVER['DOCUMENT_ROOT'];
-
 class User{
   private $user_id;
   private $valid;
@@ -17,11 +13,17 @@ class User{
     return $this->$attr;
   }
 
-  public function events(){
+  public function events($limit = -1){
     $db = (new Database())->get_handle();
-    $query = 'SELECT title, event_date, description FROM events WHERE userid = ?';
-    $stmt = $db->prepare($query);
-    $stmt->bind_param('i', $this->user_id);
+    if($limit > 0){
+      $query = 'SELECT title, event_date, description FROM events WHERE userid = ? LIMIT ?';
+      $stmt = $db->prepare($query);
+      $stmt->bind_param('ii', $this->user_id, $limit);
+    }else{
+      $query = 'SELECT title, event_date, description FROM events WHERE userid = ?';
+      $stmt = $db->prepare($query);
+      $stmt->bind_param('i', $this->user_id);
+    }
     $stmt->execute();
     $stmt->store_result();
     $stmt->bind_result($title, $event_date, $description);

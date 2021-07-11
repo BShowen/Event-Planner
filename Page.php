@@ -25,6 +25,8 @@ require $document_root.'/partials/Header.php';
 require $document_root.'/partials/Footer.php'; 
 require $document_root.'/login_form.php';
 require $document_root.'/signup_form.php';
+// Require in the Database
+require $document_root.'/Database.php';
 
 class Page {
   const DEFAULT_TITLE = "Event Planner | ";
