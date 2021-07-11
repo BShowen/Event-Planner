@@ -28,7 +28,7 @@
         </div>
         <div class='card-body'>  
           <p class='card-text'> $event_description </p>
-          <button type='button' class='btn btn-primary'>More Details</button>
+          <button type='button' class='btn btn-primary btn-sm'>Details <i class='bi bi-arrow-right-square'></i></button>
         </div>
       </div>";
     }
@@ -48,7 +48,7 @@
           <div class='container'>
             <div class='row justify-content-center'>
               <div class='col-lg-4'>
-                <img src='./bradleyshowen.png' alt='User photo' class='card-img-top img-thumbnail'>
+              <img src='./bradleyshowen.png' alt='User photo' class='card-img-top img-thumbnail'>
               </div>
             </div>
           </div>            
@@ -80,7 +80,7 @@
                   <label for='eventDescription' class='form-label mt-2'>Event Description</label>
                   <textarea name='event_description' id='eventDescription' class='form-control'></textarea>
 
-                  <input class='btn btn-primary mt-2' type='submit' value='Submit'>
+                  <input class='btn btn-primary btn-sm mt-2' type='submit' value='Submit'>
                 </div>
               </div>
             </form>

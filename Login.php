@@ -8,7 +8,7 @@ $page = new Page("Login");
 if($_SESSION['LOGIN_ERRORS']){
   $errors = "<div class='alert alert-danger mt-4 w-25 text-center' role='alert' style='margin:0 auto;'>";
   foreach($_SESSION['LOGIN_ERRORS'] as $error_message){
-    $errors .= "• ".ucfirst($error_message)."<br/>";
+    $errors .= "<i class='bi bi-x-octagon'> ".ucfirst($error_message)."</i><br/>";
   }
   $errors.="</div>";
   $_SESSION['LOGIN_ERRORS'] = array();
@@ -28,14 +28,15 @@ $login_form = "<div class='row mt-3 justify-content-center'>
         <form action='./LoginHandler.php' method='POST'>
           <div class='row justify-content-center'>
             <div class='col-sm-8'>
-              <label for='emailAddress' class='form-label mt-2'>Email address</label>
+              <label for='emailAddress' class='form-label mt-2'><span class='bi bi-envelope'> Email address</span></label>
               <input type='text' class='form-control' name='email_address' id='emailAddress'>
               
               <label for='password' class='form-label mt-2'>Password</label>
               <input type='password' class='form-control' name='password' id='password'>
               <p><a href='./Reset.php'>Forgot password</a></p>
               
-              <input class='btn btn-primary' type='submit' value='Submit'>
+              
+              <button class='btn btn-primary'>Login <i class='bi bi-box-arrow-in-right'></i></button>
               <p class='mt-4'>Not a member? <a href='./Signup.php'>Sign up now!</a></p>
             </div>
           </div>

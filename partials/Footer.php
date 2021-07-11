@@ -7,7 +7,9 @@ class Footer {
       crossorigin='anonymous'>
     </script>
     <footer class='py-2 bg-dark text-white-50'>
-    <p>Author: Bradley Showen</p>
+
+    <i class='bi bi-github'><a href=''>Bradley Showen</a></i>
+</svg>
     <p>Thanks!</p>
     </footer>
     </body>

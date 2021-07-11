@@ -104,7 +104,7 @@
                   ."</select>
                 </div>
                 <div class='col-sm-1'>
-                  <input class='btn btn-primary btn-sm' type='submit' value='Search'>
+                  <button class='btn btn-primary btn-sm'><i class='bi bi-search'></i></button>
                 </div>
               </div>
             </form>

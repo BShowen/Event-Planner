@@ -8,7 +8,8 @@ $page = new Page("Sign Up");
 if($_SESSION['SIGNUP_ERRORS']){
   $errors = "<div class='alert alert-danger mt-4 w-25 text-center' role='alert' style='margin:0 auto;'>";
   foreach($_SESSION['SIGNUP_ERRORS'] as $error_message){
-    $errors .= "• ".ucfirst($error_message)."<br/>";
+    // $errors .= "• ".ucfirst($error_message)."<br/>";
+    $errors .= "<i class='bi bi-x-octagon'> ".ucfirst($error_message)."</i><br/>";
   }
   $errors.="</div>";
   $_SESSION['SIGNUP_ERRORS'] = array();

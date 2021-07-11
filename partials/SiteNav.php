@@ -67,9 +67,8 @@ class SiteNav{
               </li>
             </ul>
             <form action='/logout.php' method='POST' style='display:$this->logout_button;'>
-              <button class='btn btn-primary fs-6'>Log out</button>
+              <button class='btn btn-primary fs-6'>Log out <i class='bi bi-box-arrow-right'></i></button>
             </form>
-            
           </div>
         </div>
       </nav> 
