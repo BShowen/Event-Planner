@@ -39,7 +39,7 @@
   $content = "
   <div class='row mt-3'>
     <!-- Left page column. -->
-    <div class='col-sm-12 col-lg-6'>  
+    <div class='col-sm-12 col-lg-6'>
       <!-- Row in the left page column -->
       <div class='col'>
         <!-- Row content -->
@@ -47,11 +47,11 @@
           <!-- Image container -->
           <div class='container'>
             <div class='row justify-content-center'>
-              <div class='col-3'>
+              <div class='col-lg-4'>
                 <img src='./bradleyshowen.png' alt='User photo' class='card-img-top img-thumbnail'>
               </div>
             </div>
-          </div>
+          </div>            
           <div class='card-body'>
             <h1 class='card-title text-center'>
               $current_user->first_name 
