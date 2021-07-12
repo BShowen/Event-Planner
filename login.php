@@ -2,7 +2,7 @@
 // Get the base file path. 
 $document_root = $_SERVER['DOCUMENT_ROOT'];
 // Require in the website template. 
-require $document_root.'/Page.php';
+require $document_root.'/models/Page.php';
 
 // Require the website template and render the header. 
 $page = new Page("Login");

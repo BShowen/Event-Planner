@@ -4,7 +4,7 @@
 
   // Require in the template for the website
   // and instantiate a page object. 
-  require $document_root.'/Page.php';
+  require $document_root.'/models/Page.php';
   $page = new Page($title = "events");
 
   // Require in the User and Event objects. 

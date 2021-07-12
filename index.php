@@ -3,7 +3,7 @@
 $document_root = $_SERVER['DOCUMENT_ROOT'];
 // Require in the template for the website
 // and instantiate a page object. 
-require $document_root.'/Page.php';
+require $document_root.'/models/Page.php';
 $page = new Page($title = "dashboard");
 
 // Require in the User file for user validation.

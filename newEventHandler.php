@@ -7,7 +7,7 @@
   $document_root = $_SERVER['DOCUMENT_ROOT'];
 
   // Require in the template for the website.
-  require $document_root.'/Page.php';
+  require $document_root.'/models/Page.php';
   // Require in the Event class to create a new Event object. 
   require $document_root.'/models/Event.php';
   // Require in the ConfirmationCard component. 
