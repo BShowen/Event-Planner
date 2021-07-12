@@ -27,7 +27,7 @@ $page->render_header();
         <div class='container'>
           <div class='row justify-content-center'>
             <div class='col-lg-4'>
-            <img src='./Photos/bradleyshowen.png' alt='User photo' class='card-img-top img-thumbnail'>
+            <img src='./Photos/img.png' alt='User photo' class='card-img-top img-thumbnail'>
             </div>
           </div>
         </div>            
