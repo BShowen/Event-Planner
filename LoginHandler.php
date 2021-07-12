@@ -29,15 +29,15 @@ if(empty($form_errors)){
       header("Location: http://".$_SERVER['HTTP_HOST']."/index.php");
     }else{
       $_SESSION['LOGIN_ERRORS'] = ["Incorrect password."];
-      header("Location: http://".$_SERVER['HTTP_HOST']."/Login.php");
+      header("Location: http://".$_SERVER['HTTP_HOST']."/login.php");
     }
   }else{
     $_SESSION['LOGIN_ERRORS'] = ["Incorrect credentials."];
-    header("Location: http://".$_SERVER['HTTP_HOST']."/Login.php");
+    header("Location: http://".$_SERVER['HTTP_HOST']."/login.php");
   }
 }else{
   $_SESSION['LOGIN_ERRORS'] = $form_errors;
-  Header("Location: http://".$_SERVER['HTTP_HOST']."/Login.php",TRUE,302);
+  Header("Location: http://".$_SERVER['HTTP_HOST']."/login.php",TRUE,302);
 }
 
 function form_errors(){
