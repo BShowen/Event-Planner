@@ -11,7 +11,7 @@
   // Require in the Event class to create a new Event object. 
   require $document_root.'/models/Event.php';
   // Require in the ConfirmationCard component. 
-  require $document_root.'/partials/ConfirmationCard.php';
+  require $document_root.'/models/ConfirmationCard.php';
   // Require in the User file for user validation.
   require $document_root.'/models/User.php';
 
