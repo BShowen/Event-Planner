@@ -18,7 +18,7 @@ Its as simple as that! I now have one class that controls every single page of m
 // Get the base file path. 
 $document_root = $_SERVER['DOCUMENT_ROOT'];
 // Require in the sites' navigation. 
-require $document_root.'/partials/SiteNav.php';
+require $document_root.'/models/SiteNav.php';
 // Require in the header for the page.
 require $document_root.'/partials/Header.php';
 // Require in the Footer for the page. 
