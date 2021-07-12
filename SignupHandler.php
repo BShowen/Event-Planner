@@ -42,7 +42,7 @@ if(empty($form_errors)){
   }
 }else{
   $_SESSION['SIGNUP_ERRORS'] = $form_errors;
-  Header("Location: http://".$_SERVER['HTTP_HOST']."/Signup.php",TRUE,302);
+  Header("Location: http://".$_SERVER['HTTP_HOST']."/signup.php",TRUE,302);
 }
 
 function form_errors(){
