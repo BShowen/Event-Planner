@@ -52,6 +52,17 @@ class Page {
     Footer::render();
   }
 
+  public function render_header(){
+    Header::render(self::DEFAULT_TITLE.$this->title);
+    echo "<div class='container-fluid'>";
+    $this->display_nav();
+  }
+
+  public function render_footer(){
+    echo "</div>";
+    Footer::render();
+  }
+
   public function set_content($page_content){
     $this->content = $page_content;
   }
