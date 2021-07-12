@@ -48,7 +48,7 @@ $page->render_header();
           <h3 class='card-title text-center'>Create a new event</h3>
         </div>
         <div class='card-body'>
-          <form action='./EventFormHandler.php' method='POST'>
+          <form action='./newEventHandler.php' method='POST'>
             <div class='row justify-content-center'>
               <div class='col-sm-8'>
                 <label for='eventTitle' class='form-label mt-2'>Event Title</label>

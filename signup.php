@@ -27,7 +27,7 @@ if($_SESSION['SIGNUP_ERRORS']){
           <h3 class='card-title text-center'>Login to Event Planner</h3>
         </div>
         <div class='card-body'>
-          <form action='./SignupHandler.php' method='POST'>
+          <form action='./signupHandler.php' method='POST'>
             <div class='row justify-content-center'>
               <div class='col-sm-8'>
                 <label for='firstName' class='form-label mt-2'>First name</label>
