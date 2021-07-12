@@ -24,7 +24,7 @@ require $document_root.'/partials/Header.php';
 // Require in the Footer for the page. 
 require $document_root.'/partials/Footer.php'; 
 // Require in the Database
-require $document_root.'/Database.php';
+require $document_root.'/models/Database.php';
 $dbb = "cool";
 
 class Page {

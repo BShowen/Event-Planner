@@ -2,7 +2,7 @@
 // Get the document root.
 $document_root = $_SERVER['DOCUMENT_ROOT'];
 // Get the database file. 
-require $document_root.'/Database.php';
+require $document_root.'/models/Database.php';
 
 $form_errors = form_errors();
 if(empty($form_errors)){
