@@ -4,5 +4,5 @@
     setcookie("auth", '', 0, "/");
     session_reset();
   }
-  Header("Location: http://".$_SERVER['HTTP_HOST']."/login.php",TRUE,302);
+  Header("Location: http://".$_SERVER['HTTP_HOST']."/controllers/login/login.php",TRUE,302);
 ?>

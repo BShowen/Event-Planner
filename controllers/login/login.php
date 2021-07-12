@@ -40,7 +40,7 @@ if($_SESSION['LOGIN_ERRORS']){
                 
                 
                 <button class='btn btn-primary'>Login<span class='bi bi-box-arrow-in-right'></span></button>
-                <p class='mt-4'>Not a member? <a href='./signup.php'>Sign up now!</a></p>
+                <p class='mt-4'>Not a member? <a href='./../signup/signup.php'>Sign up now!</a></p>
               </div>
             </div>
           </form>

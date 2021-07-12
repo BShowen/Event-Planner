@@ -6,10 +6,13 @@ require $document_root.'/models/Database.php';
 $db = (new Database())->get_handle();
 
 $form_errors = form_errors();
+define('REDIRECT', "Location: http://".$_SERVER['HTTP_HOST']."/controllers/login/login.php");
+
 if(empty($form_errors)){
   // get the email and password provided by the user. 
   $email_address = $_POST['email_address'];
   $password = $_POST['password'];
+
 
   // Query the database for the userid and the password_digest associated with the provided email. 
   $query = "SELECT userid, password_digest FROM users WHERE email = ?";
@@ -29,15 +32,15 @@ if(empty($form_errors)){
       header("Location: http://".$_SERVER['HTTP_HOST']."/index.php");
     }else{
       $_SESSION['LOGIN_ERRORS'] = ["Incorrect password."];
-      header("Location: http://".$_SERVER['HTTP_HOST']."/login.php");
+      header(REDIRECT);
     }
   }else{
     $_SESSION['LOGIN_ERRORS'] = ["Incorrect credentials."];
-    header("Location: http://".$_SERVER['HTTP_HOST']."/login.php");
+    header(REDIRECT);
   }
 }else{
   $_SESSION['LOGIN_ERRORS'] = $form_errors;
-  Header("Location: http://".$_SERVER['HTTP_HOST']."/login.php",TRUE,302);
+  header(REDIRECT);
 }
 
 function form_errors(){

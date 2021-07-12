@@ -1,13 +1,12 @@
 <?php  
 class Database {
   public $db = null;
-    
+  
   function __construct(){
-    /*Require in the config file for retrieving sensitive data. 
-    This is the correct filename. 
-    The period (.) at the beginning of .config.php indicates that 
-    this file is hidden from view in the operating system. */
-    require("./.config.php");
+    // Get the base file path. 
+    $document_root = $_SERVER['DOCUMENT_ROOT'];
+    // Require in the config file for retrieving sensitive data. 
+    require $document_root."/.config.php";
     try{
       $this->db = new mysqli($CONFIG['HOST'], $CONFIG['USER_NAME'], $CONFIG['PASSWORD'], $CONFIG['DB_NAME']); 
       if(mysqli_connect_errno()){

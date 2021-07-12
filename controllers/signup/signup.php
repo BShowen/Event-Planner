@@ -12,7 +12,7 @@ $page->render_header();
 if($_SESSION['SIGNUP_ERRORS']){
   echo "<div class='alert alert-danger mt-4 w-25 text-center' role='alert' style='margin:0 auto;'>";
   foreach($_SESSION['SIGNUP_ERRORS'] as $error_message){
-    echo "<i class='bi bi-x-octagon'>".ucfirst($error_message)."</i><br/>";
+    echo "<i class='bi bi-x-octagon'> ".ucfirst($error_message)."</i><br/>";
   }
   echo "</div>";
   $_SESSION['SIGNUP_ERRORS'] = array();
@@ -43,7 +43,7 @@ if($_SESSION['SIGNUP_ERRORS']){
                 <input type='password' class='form-control' name='password' id='password'>
                 
                 <input class='btn btn-primary mt-2' type='submit' value='Submit'>
-                <p class='mt-1'>Already a member? <a href='./login.php'>Login</a></p>
+                <p class='mt-1'>Already a member? <a href='./../login/login.php'>Login</a></p>
               </div>
             </div>
           </form>

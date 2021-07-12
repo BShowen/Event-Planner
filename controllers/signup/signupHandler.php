@@ -35,14 +35,14 @@ if(empty($form_errors)){
     $stmt->execute();
     if($stmt->affected_rows > 0){
       setcookie("auth", strval($stmt->insert_id), 0, "/");
-      Header("Location: http://".$_SERVER['HTTP_HOST']."/index.php",TRUE,302);
+      header("Location: http://".$_SERVER['HTTP_HOST']."/index.php",TRUE,302);
     }else{
       echo "Something went wrong.";
     }
   }
 }else{
   $_SESSION['SIGNUP_ERRORS'] = $form_errors;
-  Header("Location: http://".$_SERVER['HTTP_HOST']."/signup.php",TRUE,302);
+  header("Location: http://".$_SERVER['HTTP_HOST']."/controllers/signup/signup.php",TRUE,302);
 }
 
 function form_errors(){
