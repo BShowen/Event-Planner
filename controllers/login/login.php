@@ -9,13 +9,13 @@ $page = new Page("Login");
 $page->render_header();
 
 // If this page is being re-rendered with errors, each error will de displayed. 
-if($_SESSION['LOGIN_ERRORS']){
+if(isset($_SESSION['LOGIN_ERRORS'])){
   echo "<div class='alert alert-danger mt-4 w-25 text-center' role='alert' style='margin:0 auto;'>";
   foreach($_SESSION['LOGIN_ERRORS'] as $error_message){
     echo "<i class='bi bi-x-octagon'> ".ucfirst($error_message)."</i><br/>";
   }
   echo "</div>";
-  $_SESSION['LOGIN_ERRORS'] = array();
+  unset($_SESSION['LOGIN_ERRORS']);
 }
 
 ?>

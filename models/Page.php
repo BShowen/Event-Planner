@@ -20,7 +20,6 @@ class Page {
   private $content;
 
   function __construct($title){
-    // Set the page title. 
     $this->set_title($title);
     // If the user is not logged in and they are trying to access a page other than Login.php or Signup.php
     // then this means they are not authorized to access the page until they log in. 

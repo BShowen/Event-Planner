@@ -7,8 +7,10 @@ class SiteNav{
   private $confirmation = "";
   private $logout_button;
   private $logged_in;
+  private $document_root;
 
   function __construct(string $active){
+    $this->document_root = $_SERVER['DOCUMENT_ROOT'];
     $this->logged_in = isset($_COOKIE['auth']);
     $this->logout_button = isset($_COOKIE['auth']) ? '' : 'none';
     switch($active) {
@@ -54,10 +56,10 @@ class SiteNav{
           <div class='collapse navbar-collapse' id='collapseMe'>
             <ul class='navbar-nav me-auto'>
               <li class='nav-item'>
-                <a class='nav-link ".$this->dashboard." fs-5' href='./index.php'>Dashboard</a>
+                <a class='nav-link ".$this->dashboard." fs-5' href=/views/index.php>Dashboard</a>
               </li>
               <li class='nav-item'>
-                <a class='nav-link ".$this->events." fs-5' href='./events.php'>Events</a> 
+                <a class='nav-link ".$this->events." fs-5' href=/views/events.php>Events</a> 
               </li>
               <li class='nav-item'>
                 <a class='nav-link ".$this->profile." fs-5' href='#'>Profile</a> 
@@ -66,7 +68,7 @@ class SiteNav{
                 <a class='nav-link ".$this->friends." fs-5' href='#'>Friends</a> 
               </li>
             </ul>
-            <form action='./../controllers/logout/logout.php' method='POST' style='display:".$this->logout_button." '>
+            <form action='/controllers/logout/logout.php' method='POST' style='display:".$this->logout_button." '>
               <button class='btn btn-primary fs-6'>Log out <i class='bi bi-box-arrow-right'></i></button>
             </form>
           </div>

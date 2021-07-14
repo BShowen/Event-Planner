@@ -17,6 +17,7 @@
 
   // Instantiate a Page object. 
   $page = new Page($title = "confirmation");
+  $page->render_header();
   // Get a handle on the database.
   $db = (new Database())->get_handle();
   
@@ -62,14 +63,11 @@
       </div>
     </div>";
 
-    $page->set_content($content);
-    $page->render();
-    $db->close();
-    exit;
+    echo $content;
+    $page->render_footer();
   }else{
-    $page->set_content($new_event->get_errors());
-    $page->render();
-    $db->close();
-    exit;
+    echo $new_event->get_errors();
+    $page->render_footer();
   }  
+  $db->close();
 ?>

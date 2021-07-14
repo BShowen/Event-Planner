@@ -22,7 +22,6 @@ $selection = isset($_POST['selection']) ? intval($_POST['selection']) : intval($
 $db = (new Database())->get_handle();
 if($selection == -1){
   // Retrieve all the events from the database. 
-  $query = 'SELECT title, event_date, description FROM events';
   $query = 'SELECT u.first, u.last, e.title, e.event_date, e.description FROM users AS u JOIN events as e USING(userid)';
   $stmt = $db->prepare($query);
   $stmt->execute();
@@ -34,7 +33,6 @@ if($selection == -1){
   }
 }else{
   // Find events for a particular user
-  $query = 'SELECT title, event_date, description FROM events';
   $query = (
     'SELECT u.first, u.last, e.title, e.event_date, e.description 
     FROM users AS u JOIN events AS e 

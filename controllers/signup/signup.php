@@ -9,13 +9,13 @@ $page = new Page("Sign Up");
 $page->render_header();
 
 // If this page is being re-rendered with errors, each error will be displayed. 
-if($_SESSION['SIGNUP_ERRORS']){
+if(isset($_SESSION['SIGNUP_ERRORS'])){
   echo "<div class='alert alert-danger mt-4 w-25 text-center' role='alert' style='margin:0 auto;'>";
   foreach($_SESSION['SIGNUP_ERRORS'] as $error_message){
     echo "<i class='bi bi-x-octagon'> ".ucfirst($error_message)."</i><br/>";
   }
   echo "</div>";
-  $_SESSION['SIGNUP_ERRORS'] = array();
+  unset($_SESSION['SIGNUP_ERRORS']);
 }
 ?>
 <div class='row mt-3 justify-content-center'>
