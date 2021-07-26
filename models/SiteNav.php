@@ -65,7 +65,7 @@ class SiteNav{
                 <a class='nav-link ".$this->profile." fs-5' href='/views/profile.php'>Profile</a> 
               </li>
               <li class='nav-item'>
-                <a class='nav-link ".$this->friends." fs-5' href='#'>Friends</a> 
+                <a class='nav-link ".$this->friends." fs-5' href='/views/friends.php'>Friends</a> 
               </li>
             </ul>
             <form action='/controllers/logout/logout.php' method='POST' style='display:".$this->logout_button." '>

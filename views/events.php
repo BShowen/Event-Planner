@@ -51,66 +51,66 @@ if($selection == -1){
 }
 
 // Create a blank string. I append characters to this string which makeup the 
-  // HTML content which will be rendered. 
-  $table_rows = '';
+// HTML content which will be rendered. 
+$table_rows = '';
 
-  // Iterate through each of the events
-  foreach($events as $event){
-    // 
-    list($first, $last, $title, $event_date, $description) = $event;
-    $table_rows.="<tr>
-      <td> $first $last </td>
-      <td> $title </td>
-      <td> $event_date </td>
-      <td> $description </td>
-      <td> 0 </td>
-    </tr>";
-  }
+// Iterate through each of the events
+foreach($events as $event){
+  // 
+  list($first, $last, $title, $event_date, $description) = $event;
+  $table_rows.="<tr>
+    <td> $first $last </td>
+    <td> $title </td>
+    <td> $event_date </td>
+    <td> $description </td>
+    <td> 0 </td>
+  </tr>";
+}
 
-  $options = "<option value='-1'>All</option>";
-  $query = 'SELECT userid, first, last FROM users';
-  $stmt = $db->prepare($query);
-  $stmt->execute();
-  $stmt->store_result();
-  $stmt->bind_result($userid, $first, $last);
-  while($stmt->fetch()){
-    $first = ucfirst($first);
-    $last = ucfirst($last);
-    if($userid == $selection){
-      $options.="<option selected value='$userid'>$first $last[0]</option>";
-    }else{
-      $options.="<option value='$userid'>$first $last[0]</option>";
-    }
+$options = "<option value='-1'>All</option>";
+$query = 'SELECT userid, first, last FROM users';
+$stmt = $db->prepare($query);
+$stmt->execute();
+$stmt->store_result();
+$stmt->bind_result($userid, $first, $last);
+while($stmt->fetch()){
+  $first = ucfirst($first);
+  $last = ucfirst($last);
+  if($userid == $selection){
+    $options.="<option selected value='$userid'>$first $last[0]</option>";
+  }else{
+    $options.="<option value='$userid'>$first $last[0]</option>";
   }
+}
 ?>
 
 <div class='row mt-3 justify-content-center'>
-  <!-- Left page column. -->
+  <!-- Single page column. -->
   <div class='col-sm-9'>
     <div class='card'>
       <div class='card-header bg-dark text-light'>
         <h3 class='card-title text-center pt-2'>Events</h3>
       </div>
       <div class='card-body'>
-      <div class='card'>
-        <div class='card-body'>
-          <form action='./events.php' method='POST'>
-            <div class='row'>
-              <label class='col-sm-2 col-lg-2 text-end'>See all events from:</label>
-              <div class='col-sm-9 col-lg-3'>
-                <select name='selection' class='form-select form-select-sm' aria-label='.form-select-sm example'>
-                  <?php  
-                  echo $options;
-                  ?>
-                </select>
+        <div class='card'>
+          <div class='card-body'>
+            <form action='./events.php' method='POST'>
+              <div class='row'>
+                <label class='col-sm-2 col-lg-2 text-end'>See all events from:</label>
+                <div class='col-sm-9 col-lg-3'>
+                  <select name='selection' class='form-select form-select-sm' aria-label='.form-select-sm example'>
+                    <?php  
+                    echo $options;
+                    ?>
+                  </select>
+                </div>
+                <div class='col-sm-1'>
+                  <button class='btn btn-primary btn-sm'><span class='bi bi-search'></span></button>
+                </div>
               </div>
-              <div class='col-sm-1'>
-                <button class='btn btn-primary btn-sm'><span class='bi bi-search'></span></button>
-              </div>
-            </div>
-          </form>
+            </form>
+          </div>
         </div>
-      </div>
         <table class='table table-striped table-hover border-start border-end border-top mt-3'>
           <thead>
             <th scope='col'>Host</th>
