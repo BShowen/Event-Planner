@@ -62,7 +62,7 @@ class SiteNav{
                 <a class='nav-link ".$this->events." fs-5' href=/views/events.php>Events</a> 
               </li>
               <li class='nav-item'>
-                <a class='nav-link ".$this->profile." fs-5' href='#'>Profile</a> 
+                <a class='nav-link ".$this->profile." fs-5' href='/views/profile.php'>Profile</a> 
               </li>
               <li class='nav-item'>
                 <a class='nav-link ".$this->friends." fs-5' href='#'>Friends</a> 

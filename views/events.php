@@ -85,51 +85,51 @@ if($selection == -1){
 ?>
 
 <div class='row mt-3 justify-content-center'>
-    <!-- Left page column. -->
-    <div class='col-sm-9'>
-      <div class='card'>
+  <!-- Left page column. -->
+  <div class='col-sm-9'>
+    <div class='card'>
       <div class='card-header bg-dark text-light'>
         <h3 class='card-title text-center pt-2'>Events</h3>
       </div>
+      <div class='card-body'>
+      <div class='card'>
         <div class='card-body'>
-        <div class='card'>
-          <div class='card-body'>
-            <form action='./events.php' method='POST'>
-              <div class='row'>
-                <label class='col-sm-2 col-lg-2 text-end'>See all events from:</label>
-                <div class='col-sm-9 col-lg-3'>
-                  <select name='selection' class='form-select form-select-sm' aria-label='.form-select-sm example'>
-                    <?php  
-                    echo $options;
-                    ?>
-                  </select>
-                </div>
-                <div class='col-sm-1'>
-                  <button class='btn btn-primary btn-sm'><span class='bi bi-search'></span></button>
-                </div>
+          <form action='./events.php' method='POST'>
+            <div class='row'>
+              <label class='col-sm-2 col-lg-2 text-end'>See all events from:</label>
+              <div class='col-sm-9 col-lg-3'>
+                <select name='selection' class='form-select form-select-sm' aria-label='.form-select-sm example'>
+                  <?php  
+                  echo $options;
+                  ?>
+                </select>
               </div>
-            </form>
-          </div>
+              <div class='col-sm-1'>
+                <button class='btn btn-primary btn-sm'><span class='bi bi-search'></span></button>
+              </div>
+            </div>
+          </form>
         </div>
-          <table class='table table-striped table-hover border-start border-end border-top mt-3'>
-            <thead>
-              <th scope='col'>Host</th>
-              <th scope='col'>Event Title</th>
-              <th scope='col'>Event Date</th>
-              <th scope='col'>Event Description</th>
-              <th scope='col'>Guests</th>
-            </thead>
-            <tbody>
-              <?php
-              echo $table_rows;
-              ?>
-            </tbody>
-          </table>
-        </div>
-      </div>  
-    </div>
+      </div>
+        <table class='table table-striped table-hover border-start border-end border-top mt-3'>
+          <thead>
+            <th scope='col'>Host</th>
+            <th scope='col'>Event Title</th>
+            <th scope='col'>Event Date</th>
+            <th scope='col'>Event Description</th>
+            <th scope='col'>Guests</th>
+          </thead>
+          <tbody>
+            <?php
+            echo $table_rows;
+            ?>
+          </tbody>
+        </table>
+      </div>
+    </div>  
   </div>
+</div>
 
-  <?php
-  $page->render_footer();
-  ?>
+<?php
+$page->render_footer();
+?>

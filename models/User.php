@@ -4,6 +4,7 @@ class User{
   private $valid;
   private $first_name;
   private $last_name;
+  private $email;
   
   function __construct($user_id){
     $this->verify_id($user_id);
@@ -57,16 +58,17 @@ class User{
 
   private function get_and_set_attributes(){
     $db = (new Database())->get_handle();
-    $query = "SELECT first, last FROM users WHERE userid = ?";
+    $query = "SELECT first, last, email FROM users WHERE userid = ?";
     $stmt= $db->prepare($query);
     $stmt->bind_param('i', $this->user_id);
     $stmt->execute();
     $stmt->store_result();
-    $stmt->bind_result($first, $last);
+    $stmt->bind_result($first, $last, $email);
     $stmt->fetch();
     $db->close();
     $this->first_name = $first;
     $this->last_name = $last;
+    $this->email = $email;
   }
 }
 ?>
