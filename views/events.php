@@ -77,7 +77,7 @@ while($stmt->fetch()){
   $first = ucfirst($first);
   $last = ucfirst($last);
   if($userid == $selection){
-    $options.="<option selected value='$userid'>$first $last[0]</option>";
+    $options.="<option selected value='$userid' hidden>$first $last[0]</option>";
   }else{
     $options.="<option value='$userid'>$first $last[0]</option>";
   }
@@ -98,7 +98,7 @@ while($stmt->fetch()){
               <div class='row'>
                 <label class='col-sm-2 col-lg-2 text-end'>See all events from:</label>
                 <div class='col-sm-9 col-lg-3'>
-                  <select name='selection' class='form-select form-select-sm' aria-label='.form-select-sm example'>
+                  <select name='selection' class='form-select form-select-sm' aria-label='.form-select-sm'>
                     <?php  
                     echo $options;
                     ?>
