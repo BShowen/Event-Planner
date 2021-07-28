@@ -23,6 +23,45 @@ define('EDITING', isset($_POST['edit_profile']));
 // The button text for editing/saving the users profile information is determined
 // by whether or not the user is in edit mode or viewing mode. 
 $button_text = EDITING ? "Save" : "Edit profile";
+
+$accepted_parameters = valid_parameters($_POST, ['first_name', 'last_name', 'email']);
+if(!empty($accepted_parameters)){
+  // This is where your current error lays. You need to open up the User class and allow the attributes to be changed. 
+  // When changing the attributes, they should automatically be validated and then updated in the Database. 
+  // This way, calling $user->name = "Bradley" will change the users name in the database. 
+  // You should do this for events as well. It will make it a lot easier to modify events and users. 
+  foreach($accepted_parameters as $attribute => $value){
+    $current_user->$attribute = $value;
+  }
+}
+
+// This function returns an associative array containing the keys and values of 
+// only the keys that you want. 
+// $params is an associative array containing any amount of key/value pairs. 
+// $accepted_params is a an array of strings. Each string is a key that you want to keep, along with the value, 
+// from the $params associative array.
+function valid_parameters($params, $accepted_params){
+  // This is the new array that will be returned from this function. 
+  $accepted_parameters = [];
+  foreach($params as $form_field => $form_value){
+    // If the key is in the list of accepted_params AND the value of the key is valid, then keep it. 
+    // Otherwise continue to the next iteration.
+    if(in_array($form_field, $accepted_params) && strlen(trim($form_value)) > 0){
+      $accepted_parameters[$form_field] = $form_value;
+    }
+  }
+  return $accepted_parameters;
+}
+
+// If the $current_user is not valid, then display the errors. 
+if(!$current_user->valid){
+  $errors = $current_user->errors;
+  echo "<div class='alert alert-danger mt-4 w-25 text-center' role='alert' style='margin:0 auto;'>";
+  foreach($errors as $error){
+    echo "<i class='bi bi-x-octagon'> ".ucfirst($error->getMessage())."</i><br/>";
+  }
+  echo "</div>";
+}
 ?>
 
 <!-- container for page content. It is also the first (and only) row in the page. -->
@@ -42,6 +81,9 @@ $button_text = EDITING ? "Save" : "Edit profile";
       <!-- If the user is editing their profile then I need to render a form so they can edit their details. -->
       <!-- Otherwise, I simply need to display their profile information. -->
       <?php if(EDITING){ ?>
+        <div class="row"> 
+          <p><span class="bi bi-exclamation-circle"></span> Any values left blank will retain their old value.</p>
+        </div>
         <div class="row">
           <div class="col">
             <label for="first_name">First Name</label>
