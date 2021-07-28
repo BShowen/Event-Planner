@@ -22,33 +22,56 @@ $selection = isset($_POST['selection']) ? intval($_POST['selection']) : 0 ;
 $db = (new Database())->get_handle();
 switch ($selection){
   case 1:
-    echo "Selected 1";
+    // Display only users who are friends. 
+    $users = $current_user->friends;
     break;
   case 2:
-    echo "Selected 2";
+    // Display only users who are not friends.  
+    $query = (
+      "SELECT userid
+      FROM users
+      WHERE userid NOT IN (SELECT userid0 FROM users_friends WHERE userid1 = ?
+                          UNION 
+                          SELECT userid1 FROM users_friends WHERE userid0 = ?)
+                          AND userid != ?"
+    );
+    $stmt = $db->prepare($query);
+    $current_user_id = $current_user->user_id;
+    $stmt->bind_param('iii', $current_user_id, $current_user_id, $current_user_id);
+    $stmt->execute();
+    $stmt->store_result();
+    $stmt->bind_result($other_user_id);
+    $users = [];
+    while($stmt->fetch()){
+      array_push($users, new User(intval($other_user_id)));
+    }
     break;
   default: 
-    $query = 'SELECT first, last FROM users WHERE userid != ?';
+  // Select all the users from the database. 
+    $query = 'SELECT userid FROM users WHERE userid != ?';
     $stmt = $db->prepare($query);
     $user_id = $current_user->user_id;
     $stmt->bind_param('i', $user_id);
     $stmt->execute();
     $stmt->store_result();
-    $stmt->bind_result($first, $last);
+    $stmt->bind_result($other_user_id);
     $users = [];
     while($stmt->fetch()){
-      array_push($users, [$first, $last]);
+      array_push($users, new User(intval($other_user_id)));
     }
 }
 
 // Iterate through each of the users and create a table row.
 $table_rows = '';
 foreach($users as $user){
-  // 
-  list($first, $last) = $user;
   $table_rows.="<tr>
-    <td> $first</td>
-    <td> $last </td>
+    <td> $user->first_name </td>
+    <td> $user->last_name </td>
+    <td>
+      <button type='button' class='btn btn-primary btn-sm'>
+        <span class='bi bi-person-plus'></span>
+      </button>
+    </td>
   </tr>";
 }
 
@@ -65,7 +88,7 @@ for($i = 0; $i <= 2; $i++){
 
 <div class='row mt-3 justify-content-center'>
   <!-- Single page column. -->
-  <div class='col-sm-9'>
+  <div class='col-sm-12 col-md-10 col-lg-8 col-xl-6 col-xxl-4'>
     <div class='card'>
       <div class='card-header bg-dark text-light'>
         <h3 class='card-title text-center pt-2'>Users</h3>
@@ -75,15 +98,15 @@ for($i = 0; $i <= 2; $i++){
           <div class='card-body'>
             <form action='./friends.php' method='POST'>
               <div class='row'>
-                <label class='col-sm-2 col-lg-2 text-end'>Filter users:</label>
-                <div class='col-sm-9 col-lg-3'>
+                <label class='col-sm-3 text-end'>Filter users:</label>
+                <div class='col-sm-5'>
                   <select name='selection' class='form-select form-select-sm' aria-label='.form-select-sm example'>
                   <?php
                     echo $options;
                   ?>
                   </select>
                 </div>
-                <div class='col-sm-1'>
+                <div class='col-sm-2'>
                   <button class='btn btn-primary btn-sm'><span class='bi bi-search'></span></button>
                 </div>
               </div>
@@ -94,6 +117,7 @@ for($i = 0; $i <= 2; $i++){
           <thead>
             <th scope='col'>First name</th>
             <th scope='col'>Last name</th>
+            <th scope='col'>Action</th>
           </thead>
           <tbody>
             <?php

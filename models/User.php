@@ -11,12 +11,16 @@ class User{
   private $last_name;
   private $email;
   private $errors = [];
+  private $friends = [];
   
   function __construct($user_id){
     $this->verify_id($user_id);
   }
 
   public function __get($attr){
+    if($attr == 'friends'){
+      $this->get_friends();
+    }
     return $this->$attr;
   }
 
@@ -165,6 +169,28 @@ class User{
     $this->first_name = $first;
     $this->last_name = $last;
     $this->email = $email;
+  }
+
+  private function get_friends(){
+    try{
+      $db = (new Database)->get_handle();
+      $query = (
+        "SELECT userid0 FROM users_friends WHERE userid1 = ?
+        UNION 
+        SELECT userid1 FROM users_friends WHERE userid0 = ?"
+      );
+      $stmt = $db->prepare($query);
+      $stmt->bind_param('ii', $this->user_id, $this->user_id);
+      $stmt->execute();
+      $stmt->store_result();
+      $stmt->bind_result($friend_user_id);
+      while($stmt->fetch()){
+        array_push($this->friends, new User($friend_user_id));
+      }
+      $db->close();
+    }catch(Exception $e){
+      echo $e->getMessage();
+    }
   }
 }
 ?>
