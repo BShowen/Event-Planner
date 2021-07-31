@@ -26,10 +26,6 @@ $button_text = EDITING ? "Save" : "Edit profile";
 
 $accepted_parameters = valid_parameters($_POST, ['first_name', 'last_name', 'email']);
 if(!empty($accepted_parameters)){
-  // This is where your current error lays. You need to open up the User class and allow the attributes to be changed. 
-  // When changing the attributes, they should automatically be validated and then updated in the Database. 
-  // This way, calling $user->name = "Bradley" will change the users name in the database. 
-  // You should do this for events as well. It will make it a lot easier to modify events and users. 
   foreach($accepted_parameters as $attribute => $value){
     $current_user->$attribute = $value;
   }

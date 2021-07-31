@@ -3,6 +3,8 @@
 $document_root = $_SERVER['DOCUMENT_ROOT'];
 // Require in the website template. 
 require $document_root.'/models/Page.php';
+// Require in the error class that this page uses. 
+include $document_root.'/errors/SignUpError.php';
 
 // Require in the website template and render the header. 
 $page = new Page("Sign Up");
@@ -10,9 +12,10 @@ $page->render_header();
 
 // If this page is being re-rendered with errors, each error will be displayed. 
 if(isset($_SESSION['SIGNUP_ERRORS'])){
+  // var_dump($_SESSION['SIGNUP_ERRORS']);
   echo "<div class='alert alert-danger mt-4 w-25 text-center' role='alert' style='margin:0 auto;'>";
-  foreach($_SESSION['SIGNUP_ERRORS'] as $error_message){
-    echo "<i class='bi bi-x-octagon'> ".ucfirst($error_message)."</i><br/>";
+  foreach($_SESSION['SIGNUP_ERRORS'] as $error){
+    echo "<i class='bi bi-x-octagon'> ".unserialize($error)."</i><br/>";
   }
   echo "</div>";
   unset($_SESSION['SIGNUP_ERRORS']);
@@ -27,7 +30,7 @@ if(isset($_SESSION['SIGNUP_ERRORS'])){
           <h3 class='card-title text-center'>Login to Event Planner</h3>
         </div>
         <div class='card-body'>
-          <form action='./signupHandler.php' method='POST'>
+          <form action='/controllers/signup/signupHandler.php' method='POST'>
             <div class='row justify-content-center'>
               <div class='col-sm-8'>
                 <label for='firstName' class='form-label mt-2'>First name</label>
@@ -43,7 +46,7 @@ if(isset($_SESSION['SIGNUP_ERRORS'])){
                 <input type='password' class='form-control' name='password' id='password'>
                 
                 <input class='btn btn-primary mt-2' type='submit' value='Submit'>
-                <p class='mt-1'>Already a member? <a href='./../login/login.php'>Login</a></p>
+                <p class='mt-1'>Already a member? <a href='/views/login.php'>Login</a></p>
               </div>
             </div>
           </form>

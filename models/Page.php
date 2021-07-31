@@ -25,7 +25,7 @@ class Page {
     // then this means they are not authorized to access the page until they log in. 
     if($title != 'Login' && $title != 'Sign Up'  && !isset($_COOKIE['auth'])){
       // Redirect the user to the login page. 
-      header("Location: http://".$_SERVER['HTTP_HOST']."/controllers/login/login.php");
+      header("Location: http://".$_SERVER['HTTP_HOST']."/views/login.php");
     }
   }
 

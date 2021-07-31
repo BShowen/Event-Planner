@@ -6,7 +6,7 @@ require $document_root.'/models/Database.php';
 $db = (new Database())->get_handle();
 
 $form_errors = form_errors();
-define('REDIRECT', "Location: http://".$_SERVER['HTTP_HOST']."/controllers/login/login.php");
+define('REDIRECT', "Location: http://".$_SERVER['HTTP_HOST']."/views/login.php");
 
 if(empty($form_errors)){
   // get the email and password provided by the user. 

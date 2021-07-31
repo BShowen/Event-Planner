@@ -8,6 +8,9 @@ require $document_root.'/models/Page.php';
 $page = new Page("Login");
 $page->render_header();
 
+// Login handler link
+$login_handler_link = '/controllers/login/loginHandler.php';
+
 // If this page is being re-rendered with errors, each error will de displayed. 
 if(isset($_SESSION['LOGIN_ERRORS'])){
   echo "<div class='alert alert-danger mt-4 w-25 text-center' role='alert' style='margin:0 auto;'>";
@@ -28,7 +31,7 @@ if(isset($_SESSION['LOGIN_ERRORS'])){
           <h3 class='card-title text-center'>Login to Event Planner</h3>
         </div>
         <div class='card-body'>
-          <form action='./loginHandler.php' method='POST'>
+          <form action='<?php echo $login_handler_link; ?>' method='POST'>
             <div class='row justify-content-center'>
               <div class='col-sm-8'>
                 <label for='emailAddress' class='form-label mt-2'><span class='bi bi-envelope'> Email address</span></label>
@@ -40,7 +43,7 @@ if(isset($_SESSION['LOGIN_ERRORS'])){
                 
                 
                 <button class='btn btn-primary'>Login<span class='bi bi-box-arrow-in-right'></span></button>
-                <p class='mt-4'>Not a member? <a href='./../signup/signup.php'>Sign up now!</a></p>
+                <p class='mt-4'>Not a member? <a href='./signup.php'>Sign up now!</a></p>
               </div>
             </div>
           </form>

@@ -3,6 +3,8 @@
 $document_root = $_SERVER['DOCUMENT_ROOT'];
 // Get the database file. 
 require $document_root.'/models/Database.php';
+// Require in the error class that this page can throw. 
+require $document_root.'/errors/SignUpError.php';
 
 $form_errors = form_errors();
 if(empty($form_errors)){
@@ -19,32 +21,36 @@ if(empty($form_errors)){
   $stmt->bind_param('s', $email_address);
   $stmt->execute();
   $stmt->store_result();
-  $stmt->bind_result($exists);
+  $stmt->bind_result($email_exists);
   $stmt->fetch();
   
   // If the email is in use, tell the user to try another email. 
-  // If the email in NOT in use, sign the user up and log them in. 
-  if($exists){
-    echo "That email is in use.<br/>Please try another email";
-    exit();
+  // If the email is NOT in use, sign the user up and log them in. 
+  if($email_exists){
+    set_session_error_message(['That email is in use.<br/>Please try another email']);
+    redirect_to('signup.php');
   }else{
-    $query = "INSERT INTO users (first, last, email, password_digest)
-    VALUES(?,?,?,?)";
+    $query = "INSERT INTO users (first, last, email, password_digest) VALUES(?,?,?,?)";
     $stmt = $db->prepare($query);
     $stmt->bind_param("ssss", $first_name, $last_name, $email_address, $password_hash );
     $stmt->execute();
     if($stmt->affected_rows > 0){
       setcookie("auth", strval($stmt->insert_id), 0, "/");
-      header("Location: http://".$_SERVER['HTTP_HOST']."/index.php",TRUE,302);
+      redirect_to('index.php');
     }else{
-      echo "Something went wrong.";
+      set_session_error_message(["Something went wrong."]);
+      redirect_to('signup.php');
     }
   }
 }else{
-  $_SESSION['SIGNUP_ERRORS'] = $form_errors;
-  header("Location: http://".$_SERVER['HTTP_HOST']."/controllers/signup/signup.php",TRUE,302);
+  set_session_error_message($form_errors);
+  redirect_to('signup.php');
 }
 
+
+// This function retrieves all of the form_fields that were passed in from the form being submitted. 
+// Any form field with a value that is blank is invalid. 
+// An error message will be created for each invalid form field. 
 function form_errors(){
   $form_fields = [
     'first name' => $_POST['first_name'], 
@@ -55,9 +61,41 @@ function form_errors(){
   $errors = [];
   foreach($form_fields as $field => $value){
     if(empty(trim($value))){
-      array_push($errors, "$field cannot be blank.");
+      array_push($errors, "{$field} cannot be blank.");
     }
   }
   return $errors;
+}
+
+// This function accepts an array of error messages as an array of strings. 
+// Each message is converted into an object, serialized, and pushed into an array. 
+// This new array is then set to the appropriate session variable. 
+// This is done so that the following page can re-construct these error objects
+// and simply echo them to the browser without having to call any methods. 
+function set_session_error_message($error_message){
+  $errors = [];
+  foreach($error_message as $message){
+    $serialized_error_object = serialize(new SignUpError($message));
+    array_push($errors, $serialized_error_object);
+  }
+  $_SESSION['SIGNUP_ERRORS'] = $errors;
+}
+
+
+// This method redirects from the current page to a specified page. 
+// The $page parameter is passed in as a string. 
+// For example redirect_to("index.php");
+function redirect_to($page){
+  // Redirect link
+  $indexPage = "Location: http://".$_SERVER['HTTP_HOST']."/index.php";
+  $signupPage = "Location: http://".$_SERVER['HTTP_HOST']."/views/signup.php";
+  switch($page){
+    case 'index.php':
+      header($indexPage, TRUE, 302);
+      break;
+    case 'signup.php':
+      header($signupPage, TRUE, 302);
+      break;
+  }
 }
 ?>
