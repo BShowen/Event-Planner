@@ -79,7 +79,7 @@ class SiteNav{
       echo "<div class='row'>
       <nav class='navbar navbar-expand-sm navbar-dark bg-dark pt-3 pb-3'>
         <div class='container-fluid p-0'>
-          <a class='navbar-brand fs-4' >Event Manager</a>
+          <a class='navbar-brand fs-4' href='./index.php' >Event Manager</a>
         </div>
       </nav> 
     </div>";

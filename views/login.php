@@ -39,7 +39,7 @@ if(isset($_SESSION['LOGIN_ERRORS'])){
                 
                 <label for='password' class='form-label mt-2'>Password</label>
                 <input type='password' class='form-control' name='password' id='password'>
-                <p><a href='./Reset.php'>Forgot password</a></p>
+                <p><a href='./passwordReset.php'>Forgot password</a></p>
                 
                 
                 <button class='btn btn-primary'>Login<span class='bi bi-box-arrow-in-right'></span></button>
