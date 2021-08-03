@@ -8,9 +8,9 @@ require $document_root.'/models/Page.php';
 $page = new Page($title = "events");
 $page->render_header();
 
-// Require in the User and Event objects. 
+// Require in the User and Event object. 
 require $document_root.'/models/User.php';
-require $document_root.'/models/Event.php';
+// require $document_root.'/models/Event.php';
 
 // Retrieve the cookie from the users browser and set the current user 
 // to this user. If the user doesn't have a cookie in the browser then 
@@ -19,35 +19,11 @@ require $document_root.'/models/Event.php';
 $current_user = new User(intval($_COOKIE['auth']));
 
 $selection = isset($_POST['selection']) ? intval($_POST['selection']) : intval($current_user->user_id);
-$db = (new Database())->get_handle();
-if($selection == -1){
-  // Retrieve all the events from the database. 
-  $query = 'SELECT u.first, u.last, e.title, e.event_date, e.description FROM users AS u JOIN events as e USING(userid)';
-  $stmt = $db->prepare($query);
-  $stmt->execute();
-  $stmt->store_result();
-  $stmt->bind_result($first, $last, $title, $event_date, $description);
-  $events = [];
-  while($stmt->fetch()){
-    array_push($events, [$first, $last, $title, $event_date, $description]);
-  }
-}else{
-  // Find events for a particular user
-  $query = (
-    'SELECT u.first, u.last, e.title, e.event_date, e.description 
-    FROM users AS u JOIN events AS e 
-    USING(userid) 
-    WHERE userid = ?'
-  );
-  $stmt = $db->prepare($query);
-  $stmt->bind_param('i', $selection);
-  $stmt->execute();
-  $stmt->store_result();
-  $stmt->bind_result($first, $last, $title, $event_date, $description);
-  $events = [];
-  while($stmt->fetch()){
-    array_push($events, [$first, $last, $title, $event_date, $description]);
-  }
+$db = new Database();
+if($selection == -1){ // Retrieve all the events from the database. 
+  $events = $db->get_all_events();
+}else{ // Find events for a particular user
+  $events = $db->get_events_for_user($selection);
 }
 
 // Create a blank string. I append characters to this string which makeup the 
@@ -56,8 +32,8 @@ $table_rows = '';
 
 // Iterate through each of the events
 foreach($events as $event){
-  // 
   list($first, $last, $title, $event_date, $description) = $event;
+  $event_date = format_date($event_date);
   $table_rows.="<tr>
     <td> $first $last </td>
     <td> $title </td>
@@ -67,9 +43,21 @@ foreach($events as $event){
   </tr>";
 }
 
+// This function takes in a date that is formatted yyyy-mm-dd by MySQL and returns a date formatted
+// as mm-dd-yyyy. 
+function format_date($event_date){
+  $date_array = explode('-', $event_date);
+  $year = intval($date_array[0]);
+  $month = intval($date_array[1]);
+  $day = intval($date_array[2]);
+  $hour = $minute = $second = 0;
+  $unix_time = mktime($hour, $minute, $second, $month, $day, $year);
+  return date('F jS Y', $unix_time);
+}
+
 $options = "<option value='-1'>All</option>";
 $query = 'SELECT userid, first, last FROM users';
-$stmt = $db->prepare($query);
+$stmt = ($db->get_handle())->prepare($query);
 $stmt->execute();
 $stmt->store_result();
 $stmt->bind_result($userid, $first, $last);
@@ -77,7 +65,7 @@ while($stmt->fetch()){
   $first = ucfirst($first);
   $last = ucfirst($last);
   if($userid == $selection){
-    $options.="<option selected value='$userid' hidden>$first $last[0]</option>";
+    $options.="<option selected value='$userid'>$first $last[0]</option>";
   }else{
     $options.="<option value='$userid'>$first $last[0]</option>";
   }

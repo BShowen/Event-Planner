@@ -78,15 +78,14 @@ $page->render_header();
       <div class='card-body'>
         <?php 
           if(!empty($events)){
-            for($i = 0; $i < count($events); $i++){
-              list($event_title, $event_date, $event_description) = $events[$i];
-                echo "<div class='card mt-3'>
+            foreach($events as $event){
+              echo "<div class='card mt-3'>
                 <div class='card-header'>
-                  <h3 class='card-title'> $event_title </h3>
-                  <h5 class='card-subtitle'> $event_date </h5>
+                  <h3 class='card-title'> $event->title </h3>
+                  <h5 class='card-subtitle'> $event->date </h5>
                 </div>
                 <div class='card-body'>  
-                  <p class='card-text'> $event_description </p>
+                  <p class='card-text'> $event->description </p>
                   <button type='button' class='btn btn-primary btn-sm'>Details <i class='bi bi-arrow-right-square'></i></button>
                 </div>
               </div>";

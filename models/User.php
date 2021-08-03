@@ -3,7 +3,8 @@
 $document_root = $_SERVER['DOCUMENT_ROOT'];
 // Require in the custom error that this class uses. 
 require $document_root.'/errors/UserValidationError.php';
-
+// Require in the Event object.
+require $document_root.'/models/Event.php';
 class User{
   private $user_id;
   private $valid;
@@ -12,6 +13,7 @@ class User{
   private $email;
   private $errors = [];
   private $friends = [];
+  private $events = [];
   
   function __construct($user_id){
     $this->verify_id($user_id);
@@ -36,7 +38,7 @@ class User{
         $this->set_email($value);
         break;
       default:
-        throw new UserValidationError("Undefined attribute is the User class");
+        throw new UserValidationError("You cannot set that attribute for the User.");
     }
   }
 
@@ -57,15 +59,14 @@ class User{
     $stmt->execute();
     $stmt->store_result();
     $stmt->bind_result($title, $event_date, $description);
-    $events = [];
 
     // Create an array of events to be returned from this method. 
     //  The returned array is a multi dimensional array. Each sub array is an array containing event attributes. 
     while($stmt->fetch()){
-      $event = array($title, $event_date, $description);
-      array_push($events, $event);
+      array_push($this->events, new Event($title, $event_date, $description));
     }
-    return $events;
+    $db->close();
+    return $this->events;
   }
 
   private function set_first_name($value){

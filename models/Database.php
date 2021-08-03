@@ -59,5 +59,69 @@ class Database {
     return $userid;
   }
 
+  // This function takes in an id and retrieves that event from the database. 
+  // This function returns an array of all the data fields for an event. 
+  function get_event_by_id($event_id){
+    $query = "SELECT title, description, event_date FROM events WHERE eventid = ?";
+    $stmt = ($this->db)->prepare($query);
+    $stmt->bind_param('i', $event_id);
+    $stmt->execute();
+    $stmt->store_result();
+    $stmt->bind_result($title, $description, $date);
+    $stmt->fetch();
+    return [$title, $description, $date];
+  }
+
+  /* 
+  This function returns all of the events for a particular user. 
+  This function returns an array in the format 
+  [
+    ['first name', 'last name', 'event title', 'event date', 'event description'], 
+    ['first name', 'last name', 'event title', 'event date', 'event description'], 
+    ...
+    ['first name', 'last name', 'event title', 'event date', 'event description'], 
+  ]
+  */
+  public function get_events_for_user($user_id){
+    $query = (
+      'SELECT u.first, u.last, e.title, e.event_date, e.description 
+      FROM users AS u JOIN events AS e 
+      USING(userid) 
+      WHERE userid = ?'
+    );
+    $stmt = ($this->db)->prepare($query);
+    $stmt->bind_param('i', $user_id);
+    $stmt->execute();
+    $stmt->store_result();
+    $stmt->bind_result($first, $last, $title, $event_date, $description);
+    $events = [];
+    while($stmt->fetch()){
+      array_push($events, [$first, $last, $title, $event_date, $description]);
+    }
+    return $events;
+  }
+
+  /* 
+  This function returns a list of all of the Events in the database.
+  This function returns an array in the format 
+  [
+    ['first name', 'last name', 'event title', 'event date', 'event description'], 
+    ['first name', 'last name', 'event title', 'event date', 'event description'], 
+    ...
+    ['first name', 'last name', 'event title', 'event date', 'event description'], 
+  ]
+  */
+  public function get_all_events(){
+    $query = 'SELECT u.first, u.last, e.title, e.event_date, e.description FROM users AS u JOIN events as e USING(userid)';
+    $stmt = ($this->db)->prepare($query);
+    $stmt->execute();
+    $stmt->store_result();
+    $stmt->bind_result($first, $last, $title, $event_date, $description);
+    $events = [];
+    while($stmt->fetch()){
+      array_push($events, [$first, $last, $title, $event_date, $description]);
+    }
+    return $events;
+  }
 }
 ?>
