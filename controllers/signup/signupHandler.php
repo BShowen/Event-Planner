@@ -2,9 +2,9 @@
 // Get the document root.
 $document_root = $_SERVER['DOCUMENT_ROOT'];
 // Get the database file. 
-require $document_root.'/models/Database.php';
+require_once $document_root.'/models/Database.php';
 // Require in the error class that this page can throw. 
-require $document_root.'/errors/SignUpError.php';
+require_once $document_root.'/errors/SignUpError.php';
 
 $form_errors = form_errors();
 if(empty($form_errors)){

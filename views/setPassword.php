@@ -2,7 +2,7 @@
 // Get the document root.
 $document_root = $_SERVER['DOCUMENT_ROOT'];
 // Require in the website template. 
-require $document_root.'/models/Page.php';
+require_once $document_root.'/models/Page.php';
 
 
 // Get the password_reset_token from the query parameters, if it exists. 

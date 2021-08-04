@@ -2,7 +2,7 @@
 // Get the document root. 
 $document_root = $_SERVER['DOCUMENT_ROOT'];
 
-require $document_root.'/errors/EventError.php';
+require_once $document_root.'/errors/EventError.php';
 
 class Event {
 

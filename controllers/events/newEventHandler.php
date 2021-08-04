@@ -7,13 +7,13 @@ displaying it to the user. */
 $document_root = $_SERVER['DOCUMENT_ROOT'];
 
 // Require in the template for the website.
-require $document_root.'/models/Page.php';
+require_once $document_root.'/models/Page.php';
 // Require in the Event class to create a new Event object. 
-require $document_root.'/models/Event.php';
+require_once $document_root.'/models/Event.php';
 // Require in the ConfirmationCard component. 
-require $document_root.'/models/ConfirmationCard.php';
+require_once $document_root.'/models/ConfirmationCard.php';
 // Require in the User file for user validation.
-require $document_root.'/models/User.php';
+require_once $document_root.'/models/User.php';
 
 // Instantiate a Page object. 
 $page = new Page($title = "confirmation");

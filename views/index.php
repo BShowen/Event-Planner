@@ -3,11 +3,11 @@
 $document_root = $_SERVER['DOCUMENT_ROOT'];
 // Require in the template for the website
 // and instantiate a page object. 
-require $document_root.'/models/Page.php';
+require_once $document_root.'/models/Page.php';
 $page = new Page($title = "dashboard");
 
 // Require in the User file for user validation.
-require $document_root.'/models/User.php';
+require_once $document_root.'/models/User.php';
 // Get the value of the cookie. 
 $user_id = intval($_COOKIE['auth']);
 $current_user = new User($user_id);  

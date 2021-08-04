@@ -3,7 +3,7 @@
 // Get the document root.
 $document_root = $_SERVER['DOCUMENT_ROOT'];
 // Require in the User object.
-require $document_root.'/models/User.php';
+require_once $document_root.'/models/User.php';
 
 // Check for upload errors. 
 if($_FILES['uploaded_file']['error'] > 0){

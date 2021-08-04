@@ -2,7 +2,7 @@
 $document_root = $_SERVER['DOCUMENT_ROOT'];
 
 // Require in the website template. 
-require $document_root.'/models/Page.php';
+require_once $document_root.'/models/Page.php';
 
 $db = (new Database())->get_handle();
 

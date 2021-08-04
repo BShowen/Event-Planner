@@ -2,9 +2,9 @@
 // Get the document root. 
 $document_root = $_SERVER['DOCUMENT_ROOT'];
 // Require in the custom error that this class uses. 
-require $document_root.'/errors/UserValidationError.php';
+require_once $document_root.'/errors/UserValidationError.php';
 // Require in the Event object.
-require $document_root.'/models/Event.php';
+require_once $document_root.'/models/Event.php';
 // Require the database.
 require_once $document_root.'/models/Database.php';
 class User{

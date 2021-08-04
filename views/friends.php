@@ -4,12 +4,12 @@ $document_root = $_SERVER['DOCUMENT_ROOT'];
 
 // Require in the template for the website
 // and instantiate a page object. 
-require $document_root.'/models/Page.php';
+require_once $document_root.'/models/Page.php';
 $page = new Page($title = "friends");
 $page->render_header();
 
 // Require in the User object. 
-require $document_root.'/models/User.php';
+require_once $document_root.'/models/User.php';
 
 // Retrieve the cookie form the users browser and set the current user
 // to this user. 

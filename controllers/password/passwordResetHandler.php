@@ -9,7 +9,7 @@
 // Get the document reoot.
 $document_root = $_SERVER['DOCUMENT_ROOT'];
 // Require in the database. 
-require $document_root.'/models/Database.php';
+require_once $document_root.'/models/Database.php';
 // Get an instance of the Database.
 $database = new Database();
 // Retrieve the password reset token from the session.

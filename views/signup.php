@@ -2,7 +2,7 @@
 // Get the base file path. 
 $document_root = $_SERVER['DOCUMENT_ROOT'];
 // Require in the website template. 
-require $document_root.'/models/Page.php';
+require_once $document_root.'/models/Page.php';
 // Require in the error class that this page uses. 
 include $document_root.'/errors/SignUpError.php';
 

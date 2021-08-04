@@ -4,13 +4,13 @@ $document_root = $_SERVER['DOCUMENT_ROOT'];
 
 // Require in the template for the website
 // and instantiate a page object. 
-require $document_root.'/models/Page.php';
+require_once $document_root.'/models/Page.php';
 $page = new Page($title = "events");
 $page->render_header();
 
 // Require in the User and Event object. 
-require $document_root.'/models/User.php';
-// require $document_root.'/models/Event.php';
+require_once $document_root.'/models/User.php';
+// require_once $document_root.'/models/Event.php';
 
 // Retrieve the cookie from the users browser and set the current user 
 // to this user. If the user doesn't have a cookie in the browser then 
