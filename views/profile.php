@@ -58,16 +58,34 @@ if(!$current_user->valid){
   }
   echo "</div>";
 }
+
+function get_user_image_url($user){
+  if($user->photo_url){
+    return './../'.$user->photo_url;
+  }else{
+    return './Photos/img.png';
+  }
+}
 ?>
 
 <!-- container for page content. It is also the first (and only) row in the page. -->
 <div class='row mt-3 justify-content-center'>
   <!-- This is the first (and only) column on this page. -->
   <div class='card col-sm-5 col-md-4 col-xl-3 col-xxl-3'>
-    <div class='row '>
-      <div class='col-sm-6 col-md-6 mt-2'>
-        <img src='./Photos/img.png' alt='User photo' class='card-img-top img-thumbnail'>
+    <div class='row pt-2'>
+      <div class='col-sm-12 col-xl-6 d-flex align-items-end'>
+        <img src='<?php echo get_user_image_url($current_user)?>' alt='User photo' class='card-img-top img-thumbnail'>
       </div>
+      <?php if(EDITING){ ?>
+      <div class='col d-flex align-items-end'>
+        <form action="./uploadPhotoForm.php">
+          <button class='btn btn-primary btn-sm mt-1' type="submit">
+            Upload Photo
+            <span class='bi bi-pen'></span>
+          </button>
+        </form>
+      </div>
+      <?php } ?>
     </div>
     <div class='card-body'>
       <!-- This form is a hack. It allows me to send a POST request on the click of a button. 

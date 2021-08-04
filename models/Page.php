@@ -23,7 +23,7 @@ class Page {
     $this->set_title($title);
     // If the user is not logged in and they are trying to access a page other than Login.php, Signup.php, or the password reset page
     // then this means they are not authorized to access the page until they log in. 
-    if($title != 'Reset'&& $title != 'Login' && $title != 'Sign Up'  && !isset($_COOKIE['auth'])){
+    if($title !='Upload' && $title != 'Reset'&& $title != 'Login' && $title != 'Sign Up'  && !isset($_COOKIE['auth'])){
       // Redirect the user to the login page. 
       header("Location: http://".$_SERVER['HTTP_HOST']."/views/login.php");
     }

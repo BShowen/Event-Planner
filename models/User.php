@@ -5,6 +5,8 @@ $document_root = $_SERVER['DOCUMENT_ROOT'];
 require $document_root.'/errors/UserValidationError.php';
 // Require in the Event object.
 require $document_root.'/models/Event.php';
+// Require the database.
+require_once $document_root.'/models/Database.php';
 class User{
   private $user_id;
   private $valid;
@@ -14,6 +16,7 @@ class User{
   private $errors = [];
   private $friends = [];
   private $events = [];
+  private $photo_url;
   
   function __construct($user_id){
     $this->verify_id($user_id);
@@ -67,6 +70,15 @@ class User{
     }
     $db->close();
     return $this->events;
+  }
+
+  public function set_photo_url($url){
+    $db = (new Database())->get_handle();
+    $query = "UPDATE users SET photo_url = ? WHERE userid = ?";
+    $stmt = $db->prepare($query);
+    $stmt ->bind_param('si', $url, $this->user_id);
+    $stmt->execute();
+    $this->photo_url = $url;
   }
 
   private function set_first_name($value){
@@ -159,17 +171,20 @@ class User{
 
   private function get_and_set_attributes(){
     $db = (new Database())->get_handle();
-    $query = "SELECT first, last, email FROM users WHERE userid = ?";
+    $query = "SELECT first, last, email, photo_url FROM users WHERE userid = ?";
     $stmt= $db->prepare($query);
     $stmt->bind_param('i', $this->user_id);
     $stmt->execute();
     $stmt->store_result();
-    $stmt->bind_result($first, $last, $email);
+    $stmt->bind_result($first, $last, $email, $photo_url);
     $stmt->fetch();
     $db->close();
     $this->first_name = $first;
     $this->last_name = $last;
     $this->email = $email;
+    if(isset($photo_url)){
+      $this->photo_url = $photo_url;
+    }
   }
 
   private function get_friends(){

@@ -15,6 +15,15 @@ $current_user = new User($user_id);
 $events = $current_user->events(3);
 
 $page->render_header();
+
+function get_user_image_url($user){
+  if($user->photo_url){
+    return './../'.$user->photo_url;
+  }else{
+    return '/Photos/img.png';
+  }
+}
+
 ?>
 <div class='row mt-3'>
   <!-- Left page column. -->
@@ -27,7 +36,7 @@ $page->render_header();
         <div class='container'>
           <div class='row justify-content-center'>
             <div class='col-lg-4'>
-            <img src='./Photos/img.png' alt='User photo' class='card-img-top img-thumbnail'>
+            <img src='.<?php echo get_user_image_url($current_user); ?>' alt='User photo' class='card-img-top img-thumbnail'>
             </div>
           </div>
         </div>            
