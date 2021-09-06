@@ -1,5 +1,5 @@
 <?php
-$document_root = $_SERVER['DOCUMENT_ROOT'];
+$document_root = $_SERVER['DOCUMENT_ROOT'].'/eventPlanner';
 
 // Require in the website template. 
 require_once $document_root.'/models/Page.php';

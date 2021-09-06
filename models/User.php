@@ -1,6 +1,6 @@
 <?php
 // Get the document root. 
-$document_root = $_SERVER['DOCUMENT_ROOT'];
+$document_root = $_SERVER['DOCUMENT_ROOT'].'/eventPlanner';
 // Require in the custom error that this class uses. 
 require_once $document_root.'/errors/UserValidationError.php';
 // Require in the Event object.

@@ -4,7 +4,7 @@
 // exit;
 
 // Get the base file path. 
-$document_root = $_SERVER['DOCUMENT_ROOT'];
+$document_root = $_SERVER['DOCUMENT_ROOT'].'/eventPlanner';
 // Require in the sites' navigation. 
 require_once $document_root.'/models/SiteNav.php';
 // Require in the header for the page.

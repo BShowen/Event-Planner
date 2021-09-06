@@ -4,7 +4,7 @@ storing that data in a flat file, and then reading that data back and
 displaying it to the user. */
 
 // Get the base file path. 
-$document_root = $_SERVER['DOCUMENT_ROOT'];
+$document_root = $_SERVER['DOCUMENT_ROOT'].'/eventPlanner';
 
 // Require in the template for the website.
 require_once $document_root.'/models/Page.php';

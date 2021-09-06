@@ -1,6 +1,6 @@
 <?php 
 // Get the base file path.
-$document_root = $_SERVER['DOCUMENT_ROOT'];
+$document_root = $_SERVER['DOCUMENT_ROOT'].'/eventPlanner';
 
 // Require in the template for the website
 // and instantiate a page object. 

@@ -7,7 +7,7 @@
 */
 
 // Get the document reoot.
-$document_root = $_SERVER['DOCUMENT_ROOT'];
+$document_root = $_SERVER['DOCUMENT_ROOT'].'/eventPlanner';
 // Require in the database. 
 require_once $document_root.'/models/Database.php';
 // Get an instance of the Database.

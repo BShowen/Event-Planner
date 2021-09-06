@@ -4,7 +4,7 @@ class Database {
   
   function __construct(){
     // Get the base file path. 
-    $document_root = $_SERVER['DOCUMENT_ROOT'];
+    $document_root = $_SERVER['DOCUMENT_ROOT'].'/eventPlanner';
     // Require in the config file for retrieving sensitive data. 
     require $document_root."/.config.php";
     try{

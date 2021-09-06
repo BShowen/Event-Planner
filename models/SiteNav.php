@@ -10,7 +10,7 @@ class SiteNav{
   private $document_root;
 
   function __construct(string $active){
-    $this->document_root = $_SERVER['DOCUMENT_ROOT'];
+    $this->document_root = $_SERVER['DOCUMENT_ROOT'].'/eventPlanner';
     $this->logged_in = isset($_COOKIE['auth']);
     $this->logout_button = isset($_COOKIE['auth']) ? '' : 'none';
     switch($active) {

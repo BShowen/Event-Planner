@@ -1,6 +1,6 @@
 <?php
 // Get the document root.
-$document_root = $_SERVER['DOCUMENT_ROOT'];
+$document_root = $_SERVER['DOCUMENT_ROOT'].'/eventPlanner';
 // Get the database file. 
 require_once $document_root.'/models/Database.php';
 // Require in the error class that this page can throw. 
